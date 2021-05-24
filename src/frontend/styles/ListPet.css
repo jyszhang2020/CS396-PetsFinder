@@ -1,0 +1,28 @@
+.title {
+    font-size: 14pt;
+    background-color: beige;
+}
+
+.Box_title {
+    text-align: left;
+}
+
+.form {
+    width: 200px;
+    margin: 0 auto;
+}
+
+.input {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.description {
+    width: 200px;
+}
+
+.button {
+    width: 6%;
+    text-align: center;
+    margin-left: 47%;
+}
