@@ -138,12 +138,22 @@ class ListPet extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        console.log(this.state);
 
         if (this.validateForm()) {
             fetch('http://localhost:8081/listpet', {
                 method: 'POST',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify({
+                    species: this.state.species,
+                    breed: this.state.breed,
+                    name: this.state.name,
+                    sex: this.state.sex,
+                    dob: this.state.dob,
+                    price: this.state.price,
+                    contact_phone: this.state.contact_phone,
+                    detail: this.state.detail,
+                    image_url: this.state.image_url,
+                    location: this.state.location,
+                }),
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
