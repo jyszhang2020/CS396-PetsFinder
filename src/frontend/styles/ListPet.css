@@ -1,28 +1,14 @@
-.title {
-    font-size: 14pt;
-    background-color: beige;
+#smallest-page-container {
+    min-height: 750px;
 }
 
-.Box_title {
-    text-align: left;
+.title {
+    text-align: center;
+    color: #435560;
+    padding-top: 30px;
 }
 
 .form {
-    width: 200px;
+    width: 60%;
     margin: 0 auto;
-}
-
-.input {
-    width: 100%;
-    margin: 0 auto;
-}
-
-.description {
-    width: 200px;
-}
-
-.button {
-    width: 6%;
-    text-align: center;
-    margin-left: 47%;
 }

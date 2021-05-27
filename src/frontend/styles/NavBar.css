@@ -1,13 +1,34 @@
-nav {
+.petfind-nav {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     min-height: 10vh;
-    background: rgb(73, 79, 82);
+    background: #435560;
     color: white;
+    padding-left: 10%;
+    padding-right: 5%;
+    box-shadow: 0 2px 5px 0 #435560;
 }
 
-nav a {
+.petfind-nav h1 {
+    font-size: 30px;
+    font-family: Chalkduster, fantasy;
+}
+
+.petfind-nav a {
     color: aliceblue;
     text-decoration: none;
+    margin: 20px;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.petfind-nav a:hover {
+    color: royalblue;
+}
+
+#nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }

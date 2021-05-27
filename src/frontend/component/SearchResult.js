@@ -1,32 +1,56 @@
 import React, {Component} from 'react';
+import '../styles/SearchResult.css'
 import Pet from './Pet';
 
-class Community extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            allpets : []
-        }
-        const url = "http://localhost:8081/allpets";
-        fetch(url, {
-            method: 'GET',
+const parseQueryParameter = q => {
+    let qs = q.replace("?", "").split("&")
+    let params = {}
+
+    qs.forEach(param => {
+        param = param.split("=")
+        if (param[1] !== "")
+        params[param[0]] = param[1].replaceAll("%20", " ")
+    });
+
+    return params
+}
+
+class SearchResult extends Component {
+    componentDidMount() {
+        let params = parseQueryParameter(this.props.location.search)
+        
+        fetch("http://localhost:8081/filterpet", {
+            method: 'POST',
+            body: JSON.stringify(params),
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
             }
         })
-            .then(res => res.json())
-            .then((data) => {
-                this.setState({allpets: data});
-                console.log(this.state.allpets);
+            .then(async response => {
+                let data = await response.json()
+                if (response.status === 404) {
+                    this.setState({err: data.message});
+                } else if (response.status === 200) {
+                    console.log("data is ", data);
+                    this.setState({pets: data});
+                }
+            })
+            .catch(err => {
+                this.setState({err: err.message});
             })
     }
-  
+
+    constructor() {
+        super();
+        this.state = {
+            pets: []
+        }
+    }
 
     render() {
-        let pets = this.state.allpets;
-        console.log("pets are ", this.state.allpets);
+        const pets = this.state.pets;
         return (
             <>
                 {
@@ -54,4 +78,4 @@ class Community extends Component {
     }
 }
 
-export default Community;
+export default SearchResult;

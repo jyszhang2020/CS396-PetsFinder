@@ -1,0 +1,23 @@
+
+#search-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #9bc4dd;
+    padding: 40px;
+}
+
+#search-panel h2 {
+    color: #435560;
+}
+
+.ui.button.search-button {
+    margin-left: 10px;
+}
+
+#search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

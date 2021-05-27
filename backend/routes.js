@@ -26,15 +26,33 @@ router.route("/allpets")
             })
     });
 
-router.route("/filterpet/:species")
+router.route("/randompets")
     .get((req, res) => {
-        console.log(`GET /filterpet/${req.params.species}`)
-        Pets.find({"species": req.params.species})
+        console.log("GET /randompets");
+        Pets.aggregate([
+                { $sample: { size:  5} }
+            ])
+            .then(pet => {
+                res.status(200).send(pet);
+            })
+            .catch(err => {
+                res.status(500).send(err);
+            })
+    });
+
+router.route("/filterpet")
+    .post((req, res) => {
+        console.log("POST /filterpet")
+
+        let filters = req.body
+
+        console.log(filters)
+        Pets.find(filters)
             .then(data => {
-                if (data.length != 0) {
+                if (data.length !== 0) {
                     res.status(200).send(data);
                 } else {
-                    res.status(404).send({"message": `There are currently no ${req.params.species}s available`});
+                    res.status(404).send({"message": `There are currently no such pets available`});
                 }
             })
             .catch(err => {

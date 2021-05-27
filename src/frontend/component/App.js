@@ -1,20 +1,25 @@
 import React from 'react';
 
 import NavBar from './NavBar';
-import SearchBox from './SearchBox';
+import Home from './Home';
 import ListPet from './ListPet';
 import Community from './Community';
+import Footer from './Footer';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import history from './history';
+import SearchResult from './SearchResult'
 
 function App() {
   return (
-    <Router>
+    <Router history={history}>
       <NavBar />
       <Switch>
-        <Route path="/" exact component={SearchBox} />
+        <Route path="/" exact component={Home} />
         <Route path="/community" component={Community} />
         <Route path="/listpet" component={ListPet} />
+        <Route path="/search" component={SearchResult} />
       </Switch>
+      <Footer />
     </Router>
   );
 }

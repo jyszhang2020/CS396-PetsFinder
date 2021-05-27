@@ -1,0 +1,18 @@
+.petfind-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 10vh;
+    background-color: #435560;
+    color: white;
+    box-shadow: 0 2px 5px 0 #435560;
+}
+
+.petfind-footer a {
+    color: white;
+}
+
+.petfind-footer a:hover {
+    color: royalblue;
+}

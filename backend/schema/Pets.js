@@ -20,7 +20,7 @@ const PetsSchema = new Schema({
         type: Schema.Types.String,
         required: true
     },
-    age: {
+    dob: {
         type: Schema.Types.String,
         required: true
     },
@@ -32,12 +32,16 @@ const PetsSchema = new Schema({
         required: true
     },
     contact_phone: {
-        type: Schema.Types.Number,
+        type: Schema.Types.String,
         required: true
     },
     detail: {
         type: Schema.Types.String,
-    }
+    },
+    location: {
+        type: Schema.Types.String,
+        required: true
+    },
 });
 
 PetsSchema.statics.create = function(obj) {
@@ -47,12 +51,13 @@ PetsSchema.statics.create = function(obj) {
     pet.breed = obj.breed;
     pet.name = obj.name;
     pet.sex = obj.sex;
-    pet.age = obj.age;
+    pet.dob = obj.age;
     pet.breed = obj.breed;
     pet.image_url = obj.image_url;
     pet.price = obj.price;
     pet.contact_phone = Number(obj.contact_phone);
     pet.detail = obj.detail;
+    pet.location = obj.location;
     return pet;
 }
 
