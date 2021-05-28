@@ -30,7 +30,7 @@ router.route("/randompets")
     .get((req, res) => {
         console.log("GET /randompets");
         Pets.aggregate([
-                { $sample: { size:  5} }
+                { $sample: { size:  6} }
             ])
             .then(pet => {
                 res.status(200).send(pet);

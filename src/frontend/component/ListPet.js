@@ -261,6 +261,7 @@ class ListPet extends Component {
                             label='Location'
                             options={locationOption}
                             onChange={(event, {value}) => this.handleChange(value, "location")}
+                            search
                             placeholder='e.g. Illinois'
                             error={this.state.location_error}
                         />
