@@ -8,6 +8,7 @@ class Community extends Component {
             allpets : []
         }
         const url = "http://localhost:8081/allpets";
+        let jsonTarget= [];
         fetch(url, {
             method: 'GET',
             headers: {
@@ -17,8 +18,11 @@ class Community extends Component {
             }
         })
             .then(res => res.json())
-            .then((data) => {
-                this.setState({allpets: data});
+            .then((res) => {
+                res.forEach(function(pet) {
+                    jsonTarget.push({species: pet.species, sex: pet.sex, price: pet.price, name: pet.name, detail: pet.detail, contact: pet.contact_phone, breed: pet.breed, dob: pet.dob});
+                });
+                this.setState({allpets: jsonTarget});
                 console.log(this.state.allpets);
             })
     }
@@ -28,28 +32,11 @@ class Community extends Component {
         let pets = this.state.allpets;
         console.log("pets are ", this.state.allpets);
         return (
-            <>
-                {
-                    pets.length === 0 ? (
-                        <div id="smallest-page-container">
-                            <div class="search-result-container err">Sorry, there is no matching pet available!</div>
-                        </div>
-                    ) : (
-                        <div id="smallest-page-container">
-                            <div class="search-result-container result">
-                                <div id="filter-section">
-                                    TODO: Filters
-                                </div>
-                                <div id="search-result-section">
-                                    {pets.map((pet) => (
-                                        <Pet pet={pet}/>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    )
-                }
-            </>
+            <div>
+                {pets.map((pet) => (
+                    <Pet pet={pet}/>
+                ))}
+            </div>
         )
     }
 }

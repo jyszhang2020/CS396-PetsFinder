@@ -1,29 +1,6 @@
-.search-pet-img {
-    height: 200px;
-    border-radius: 5px;
-}
-
-.search-pet-card {
-    border-radius: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    margin-bottom: 20px;
-    margin-left: 20px;
-    display: flex;
-    width: 400px;
-    /* height: 200px; */
-}
-
-.search-pet-info {
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-    margin-top: 20px;
-    line-height: 1.5;
-}
-
-.search-pet-name {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-bottom: 10px;
+.petform {
+    background-color: antiquewhite;
+    display: block;
+    width: 20%;
+    text-align: center;
 }
