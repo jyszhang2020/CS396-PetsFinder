@@ -60,7 +60,34 @@ router.route("/filterpet")
     .post((req, res) => {
         console.log("POST /filterpet")
 
-        let filters = req.body
+        // let filters = req.body;
+        let filters = {}
+        let minPrice = 0;
+        let maxPrice = 1000000000;
+
+        if (req.body.species) {
+            filters.species = req.body.species;
+        }
+        if (req.body.breed) {
+            filters.breed = req.body.breed;
+        }
+        if (req.body.sex) {
+            filters.sex = req.body.sex;
+        }
+        if (req.body.dob) {
+            filters.dob = req.body.dob;
+        }
+        if (req.body.minPrice) {
+            minPrice = req.body.minPrice;
+        }
+        if (req.body.maxPrice) {
+            maxPrice = req.body.maxPrice;
+        }
+        filters.price = {
+            $lte: maxPrice, 
+            $gte: minPrice
+        };
+        // && {price: { $lte: maxPrice, $gte: minPrice}}
 
         console.log(filters)
         Pets.find(filters)

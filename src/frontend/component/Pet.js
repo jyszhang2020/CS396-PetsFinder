@@ -4,18 +4,18 @@ import history from './history';
 
 class Pet extends Component {
 
-    goToCarddetails = (pet) => {
-        console.log("here");
-        localStorage.setItem("selectedPetID", pet._id);
-    // you can manage here to pass the clicked card id to the card details page if needed
-    }
+    
 
     render() {
         const {pet} = this.props;
-        
+        const goToCarddetails = (pet) => {
+            console.log("here");
+            localStorage.setItem("selectedPetID", pet._id);
+        // you can manage here to pass the clicked card id to the card details page if needed
+        }
         return (
             <div onClick={() => {
-                this.goToCarddetails(pet)
+                goToCarddetails(pet)
                 history.push('/allpets/' + pet._id);
                 }} class="search-pet-card">
                 <img className="search-pet-img" src={pet.image_url} alt=""></img>

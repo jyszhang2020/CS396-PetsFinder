@@ -17,6 +17,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/community" component={Community} />
+        <Route path="/filter" component={SearchResult} />
         <Route path="/allpets/" component={PetDetail} />
         <Route path="/listpet" component={ListPet} />
         <Route path="/search" component={SearchResult} />

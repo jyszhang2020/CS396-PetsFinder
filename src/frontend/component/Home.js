@@ -35,6 +35,7 @@ class Home extends Component {
         this.state = {
             species: '',
             breed: '',
+            sex: '',
             location: '',
             err: '',
             featuredPets: []
