@@ -4,6 +4,7 @@ const router = require("express").Router();
 
 const Pets = require("./schema/Pets");
 const Contactor = require("./schema/Contactor");
+const Email = require("./schema/Email");
 
 
 router.route("/")
@@ -109,6 +110,22 @@ router.route("/listpet")
         const jsonObj = req.body;
 
         Pets.create(jsonObj).save()
+            .then(
+                () => {
+                    res.status(201).send("success");
+                }
+            )
+            .catch(err => {
+                res.status(500).send(err.message);
+            });
+    });
+
+router.route("/submitemail")
+    .post((req, res) => {
+        console.log("POST /submitemail");
+        const jsonObj = req.body;
+
+        Email.create(jsonObj).save()
             .then(
                 () => {
                     res.status(201).send("success");
