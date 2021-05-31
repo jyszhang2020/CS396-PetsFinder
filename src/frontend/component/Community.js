@@ -83,7 +83,6 @@ class Community extends Component {
                         <div id="smallest-page-container">
                             <div class="search-result-container result">
                                 <div id="filter-section">
-                                    TODO: Filters
                                     <h3>Set the Price Range</h3>
                                     <p>set min price</p>
                                     <Slider color="red" settings={this.minSettings} />
@@ -98,14 +97,14 @@ class Community extends Component {
                                         value='Male'
                                         onChange={this.handleChange}
                                         checked={this.state.sex === 'Male'}
-                                    />
+                                    /><br/>
                                     <Radio
                                         label='Female'
                                         name='radioGroup'
                                         value='Female'
                                         onChange={this.handleChange}
                                         checked={this.state.sex === 'Female'}
-                                    />
+                                    /><br/>
                                     <Button className="search-button" onClick={this.submitHandler}>Search</Button>
                                 </div>
                                 <div id="search-result-section">
