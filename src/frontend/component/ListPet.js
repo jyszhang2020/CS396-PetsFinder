@@ -3,6 +3,7 @@ import '../styles/ListPet.css';
 import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
 import {speciesOption, genderOption} from './DropdownOptions';
 import {catBreedOption, dogBreedOption, locationOption} from './DropdownOptions';
+import {storage} from '../../firebase/firebase'
 
 class ListPet extends Component {
 
@@ -17,7 +18,7 @@ class ListPet extends Component {
             price: '',
             contact_phone: '',
             detail: '',
-            image_url: '',
+            image: '',
             location: '',
             
             term_condition: false,
@@ -30,7 +31,6 @@ class ListPet extends Component {
             detail_error: false,
             contact_phone_error: false,
             location_error: false,
-            image_url_error: false,
             term_condition_error: false,
         }
     }
@@ -39,6 +39,12 @@ class ListPet extends Component {
         this.setState({
             [state]: value,
             [state + "_error"]: false,
+        })
+    }
+
+    handleChangeImage = e => {
+        this.setState({
+            image: e.target.files[0]
         })
     }
 
@@ -120,11 +126,6 @@ class ListPet extends Component {
             
             err = true
         }
-        if (this.state.image_url === '') {
-            this.setState({image_url_error: true})
-            
-            err = true
-        }
         if (this.state.term_condition === false) {
             this.setState({
                 term_condition_error: true
@@ -140,37 +141,52 @@ class ListPet extends Component {
         e.preventDefault()
 
         if (this.validateForm()) {
-            fetch('http://localhost:8081/listpet', {
-                method: 'POST',
-                body: JSON.stringify({
-                    species: this.state.species,
-                    breed: this.state.breed,
-                    name: this.state.name,
-                    sex: this.state.sex,
-                    dob: this.state.dob,
-                    price: this.state.price,
-                    contact_phone: this.state.contact_phone,
-                    detail: this.state.detail,
-                    image_url: this.state.image_url,
-                    location: this.state.location,
-                }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
-                }
-            })
-                .then((response) => response.text())
-                .then((response) => {
-                    if (response === 'success') {
-                        console.log(response)
-                        alert("Submit Success!")
-                    }
-                    else {
-                        alert("Submit failed")
-                    }
+            const uploadTask = storage.ref(`/images/${this.state.name}_${this.state.contact_phone}`).put(this.state.image)
+            uploadTask.on('state_changed', 
+                (snapShot) => {
+                    //takes a snap shot of the process as it is happening
+                    console.log(snapShot)
+                }, (err) => {
+                    //catches the errors
+                    console.log(err)
+                }, () => {
+                    // gets the functions from storage refences the image storage in firebase by the children
+                    // gets the download url then sets the image from firebase as the value for the imgUrl key:
+                    storage.ref('images').child(`${this.state.name}_${this.state.contact_phone}`).getDownloadURL()
+                    .then(fireBaseUrl => {
+                        fetch('http://localhost:8081/listpet', {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                species: this.state.species,
+                                breed: this.state.breed,
+                                name: this.state.name,
+                                sex: this.state.sex,
+                                dob: this.state.dob,
+                                price: this.state.price,
+                                contact_phone: this.state.contact_phone,
+                                detail: this.state.detail,
+                                image_url: fireBaseUrl,
+                                location: this.state.location,
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Access-Control-Allow-Origin': '*',
+                                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
+                            }
+                        })
+                            .then((response) => response.text())
+                            .then((response) => {
+                                if (response === 'success') {
+                                    console.log(response)
+                                    alert("Submit Success!")
+                                }
+                                else {
+                                    alert("Submit failed")
+                                }
+                            })
+                            .catch((err) => console.log(err))
+                    })
                 })
-                .catch((err) => console.log(err))
         }
     }
 
@@ -267,13 +283,9 @@ class ListPet extends Component {
                         />
                     </Form.Group>
                     <Form.Field
-                        id='form-input-control-error-email'
-                        control={Input}
-                        label='Image URL'
-                        onChange={(event, {value}) => this.handleChange(value, "image_url")}
-                        placeholder='paste pet image url here'
-                        error={this.state.image_url_error}
+                        label='Image'
                     />
+                    <input type="file" name="file" id="input-file" onChange={this.handleChangeImage} />
                     <Form.Checkbox
                         label='I agree to the Terms and Conditions'
                         onChange={(event, {checked}) => this.handleChange(checked, "term_condition")}

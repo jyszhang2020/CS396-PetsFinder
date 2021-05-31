@@ -12,3 +12,7 @@
     width: 60%;
     margin: 0 auto;
 }
+
+#input-file {
+    margin-bottom: 20px;
+}

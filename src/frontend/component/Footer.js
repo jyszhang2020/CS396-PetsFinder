@@ -7,7 +7,7 @@ class Footer extends Component {
         return (
             <footer className="petfind-footer">
                 <div>
-                    © 2021 PetFind.com
+                    © 2021 PetsFind.com
                 </div>
                 <div>
                     <Link>Terms of Use </Link> | <Link>Privacy Policy</Link>
