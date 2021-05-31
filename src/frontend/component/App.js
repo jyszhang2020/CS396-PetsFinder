@@ -8,6 +8,7 @@ import Footer from './Footer';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import history from './history';
 import SearchResult from './SearchResult'
+import PetDetail from './PetDetail';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/community" component={Community} />
+        <Route path="/allpets/" component={PetDetail} />
         <Route path="/listpet" component={ListPet} />
         <Route path="/search" component={SearchResult} />
       </Switch>

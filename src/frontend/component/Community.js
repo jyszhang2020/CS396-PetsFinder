@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Pet from './Pet';
+import PetDetail from './PetDetail';
 
 class Community extends Component {
     constructor(props) {
@@ -22,8 +23,7 @@ class Community extends Component {
                 console.log(this.state.allpets);
             })
     }
-  
-
+    
     render() {
         let pets = this.state.allpets;
         console.log("pets are ", this.state.allpets);

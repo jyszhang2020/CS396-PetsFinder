@@ -26,6 +26,22 @@ router.route("/allpets")
             })
     });
 
+router.route("/allpets/:id")
+    .get((req, res) => {
+        console.log(`GET /allpets/${req.params.id}`);
+        Pets.find({"_id": req.params.id})
+            .then(pet => {
+                if (pet.length != 0) {
+                    res.status(200).send(pet[0]);
+                } else {
+                    res.status(404).send({"message": `Pets with id ${req.params.id} does not exist.`});
+                }
+            })
+            .catch(err => {
+                res.status(404).send(err);
+            });
+    });
+
 router.route("/randompets")
     .get((req, res) => {
         console.log("GET /randompets");
