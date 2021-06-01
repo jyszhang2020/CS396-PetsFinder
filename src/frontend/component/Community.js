@@ -83,29 +83,7 @@ class Community extends Component {
                         <div id="smallest-page-container">
                             <div class="search-result-container result">
                                 <div id="filter-section">
-                                    <h3>Set the Price Range</h3>
-                                    <p>set min price</p>
-                                    <Slider color="red" settings={this.minSettings} />
-                                    {this.state.valueMin}
-                                    <p>set max price</p>
-                                    <Slider color="red" settings={this.maxSettings} />
-                                    {this.state.valueMax}
-                                    <h3>Choose the Sex</h3>
-                                    <Radio
-                                        label='Male'
-                                        name='radioGroup'
-                                        value='Male'
-                                        onChange={this.handleChange}
-                                        checked={this.state.sex === 'Male'}
-                                    /><br/>
-                                    <Radio
-                                        label='Female'
-                                        name='radioGroup'
-                                        value='Female'
-                                        onChange={this.handleChange}
-                                        checked={this.state.sex === 'Female'}
-                                    /><br/>
-                                    <Button className="search-button" onClick={this.submitHandler}>Search</Button>
+                                    <h3>TODO: filter</h3>
                                 </div>
                                 <div id="search-result-section">
                                     {pets.map((pet) => (

@@ -68,28 +68,6 @@ class SearchResult extends Component {
         this.setState({sex: value});
     }
 
-    // minSettings = {
-    //     start: this.state.valueMin,
-    //     min: 0,
-    //     max: 5000,
-    //     step: 1,
-    //     onChange: value => {
-    //       this.setState({
-    //         valueMin: value
-    //       })}
-    // };
-
-    // maxSettings = {
-    //     start: this.state.valueMax,
-    //     min: 0,
-    //     max: 5000,
-    //     step: 1,
-    //     onChange: value => {
-    //       this.setState({
-    //         valueMax: value
-    //       })}
-    // };
-
     submitHandler = (e) => {
         e.preventDefault();
         let params = parseQueryParameter(this.props.location.search)
@@ -107,27 +85,6 @@ class SearchResult extends Component {
 
     render() {
         const pets = this.state.pets;
-        const minSettings = {
-            start: this.state.valueMin,
-            min: 0,
-            max: 5000,
-            step: 1,
-            onChange: value => {
-              this.setState({
-                valueMin: value
-              })}
-        };
-    
-        const maxSettings = {
-            start: this.state.valueMax,
-            min: 0,
-            max: 5000,
-            step: 1,
-            onChange: value => {
-              this.setState({
-                valueMax: value
-              })}
-        };
         return (
             <>
                 {
@@ -139,30 +96,7 @@ class SearchResult extends Component {
                         <div id="smallest-page-container">
                             <div class="search-result-container result">
                                 <div id="filter-section">
-                                    <h3>Set the Price Range</h3>
-                                    <p>set min price</p>
-                                    <Slider color="red" settings={minSettings} />
-                                    {this.state.valueMin}
-                                    <p>set max price</p>
-                                    <Slider color="red" settings={maxSettings} />
-                                    {this.state.valueMax}
-                                    <h3>Choose the Sex</h3>
-                                    <Radio
-                                        label='Male'
-                                        name='radioGroup'
-                                        value='Male'
-                                        onChange={this.handleChange}
-                                        checked={this.state.sex === 'Male'}
-                                    /><br/>
-                                    <Radio
-                                        label='Female'
-                                        name='radioGroup'
-                                        value='Female'
-                                        onChange={this.handleChange}
-                                        checked={this.state.sex === 'Female'}
-                                    /><br/>
-                                    <Button className="search-button" onClick={this.submitHandler}>Search</Button>
-                                
+                                    <h3>TODO: filter</h3>
                                 </div>
                                 <div id="search-result-section">
                                     {pets.map((pet) => (
