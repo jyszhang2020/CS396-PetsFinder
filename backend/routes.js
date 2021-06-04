@@ -110,9 +110,8 @@ router.route("/listpet")
         const jsonObj = req.body;
 
         Pets.create(jsonObj).save()
-            .then(
-                () => {
-                    res.status(201).send("success");
+            .then(data => {
+                    res.status(201).send(data);
                 }
             )
             .catch(err => {

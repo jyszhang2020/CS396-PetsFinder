@@ -4,6 +4,7 @@ import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
 import {speciesOption, genderOption} from './DropdownOptions';
 import {catBreedOption, dogBreedOption, locationOption} from './DropdownOptions';
 import {storage} from '../../firebase/firebase'
+import history from './history';
 
 class ListPet extends Component {
 
@@ -174,11 +175,12 @@ class ListPet extends Component {
                                 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
                             }
                         })
-                            .then((response) => response.text())
-                            .then((response) => {
-                                if (response === 'success') {
-                                    console.log(response)
-                                    alert("Submit Success!")
+                            .then(async response => {
+                                if (response.status === 201) {
+                                    let pet = await response.json()
+                                    console.log(pet)
+                                    localStorage.setItem("selectedPetID", pet._id);
+                                    history.push('/allpets/' + pet._id)
                                 }
                                 else {
                                     alert("Submit failed")
