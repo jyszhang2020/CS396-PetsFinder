@@ -25,7 +25,6 @@ class ListPet extends Component {
             term_condition: false,
             name_error: false,
             species_error: false,
-            breed_error: false,
             sex_error: false,
             dob_error: false,
             price_error: false,
@@ -89,11 +88,6 @@ class ListPet extends Component {
         }
         if (this.state.species === '') {
             this.setState({species_error: true})
-            
-            err = true
-        }
-        if (this.state.breed === '') {
-            this.setState({breed_error: true})
             
             err = true
         }
@@ -232,7 +226,6 @@ class ListPet extends Component {
                             onChange={(event, {value}) => this.handleChange(value, "breed")}
                             placeholder='e.g. Ragdoll'
                             search
-                            error={this.state.breed_error}
                         />
                     </Form.Group>
                     <Form.Group widths='equal'>

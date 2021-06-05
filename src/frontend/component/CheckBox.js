@@ -7,9 +7,9 @@ class CheckBox extends Component {
     render() {
         const {toggle, range} = this.props;
         return (
-            <li>
-                <input key={range.id} onClick={toggle} type="checkbox" checked={range.isChecked} value={range.value} /> {range.value}
-            </li>
+            <div>
+                <input key={range.id} onChange={toggle} type="checkbox" checked={range.isChecked} value={range.value} /> {range.value}
+            </div>
           )
     }
 }

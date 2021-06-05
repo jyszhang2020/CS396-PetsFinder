@@ -35,7 +35,7 @@ class PetDetail extends Component {
                     <div className="detail-pet-info">
                         <div className="detail-pet-name">{this.state.pet.name}</div>
                         <div><strong>Species: </strong>{this.state.pet.species}</div>
-                        <div><strong>Breed: </strong>{this.state.pet.breed}</div>
+                        {this.state.pet.breed ? (<div><strong>Breed: </strong>{this.state.pet.breed}</div>) : null}
                         <div><strong>Sex: </strong>{this.state.pet.sex}</div>
                         <div><strong>Birthday: </strong>{this.state.pet.dob}</div>
                         <div><strong>Price: </strong>${this.state.pet.price}</div>

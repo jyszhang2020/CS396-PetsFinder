@@ -10,7 +10,7 @@ const PetsSchema = new Schema({
     },
     breed: {
         type: Schema.Types.String,
-        required: true
+        required: false
     },
     name: {
         type: Schema.Types.String,
@@ -52,7 +52,6 @@ PetsSchema.statics.create = function(obj) {
     pet.name = obj.name;
     pet.sex = obj.sex;
     pet.dob = obj.dob;
-    pet.breed = obj.breed;
     pet.image_url = obj.image_url;
     pet.price = obj.price;
     pet.contact_phone = Number(obj.contact_phone);

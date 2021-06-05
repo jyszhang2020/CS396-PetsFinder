@@ -142,12 +142,12 @@ class Home extends Component {
                                             goToCarddetails(pet)
                                             history.push('/allpets/' + pet._id);
                                             }}>
-                                    <div className="center-cropped" 
-                                        style={{backgroundImage: `url('${pet.image_url}')`}}>
+                                    <div class="pet-img-container">
+                                        <img class="pet-img" src={pet.image_url} alt=""/>
                                     </div>
                                     <div className="pet-card-info">
                                         <div className="pet-card-name"> {pet.name} </div>
-                                        <div className="pet-card-detail"> {pet.breed} </div>
+                                        <div className="pet-card-detail"> {pet.breed ? pet.breed : "No breed info"} </div>
                                         <div className="pet-card-detail"> ${pet.price} </div>
                                     </div>
                                 </div>

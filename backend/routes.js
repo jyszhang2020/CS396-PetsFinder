@@ -63,8 +63,6 @@ router.route("/filterpet")
 
         // let filters = req.body;
         let filters = {}
-        let minPrice = 0;
-        let maxPrice = 1000000000;
 
         if (req.body.species) {
             filters.species = req.body.species;
@@ -78,19 +76,20 @@ router.route("/filterpet")
         if (req.body.dob) {
             filters.dob = req.body.dob;
         }
-        if (req.body.minPrice) {
-            minPrice = req.body.minPrice;
-        }
-        if (req.body.maxPrice) {
-            maxPrice = req.body.maxPrice;
-        }
-        filters.price = {
-            $lte: maxPrice, 
-            $gte: minPrice
-        };
-        // && {price: { $lte: maxPrice, $gte: minPrice}}
+        if (req.body.price) {
+            let priceRanges = req.body.price.split(",");
+            let priceFilters = []
 
-        console.log(filters)
+            priceRanges.forEach(priceRange => {
+                let [min, max] = priceRange.split("-")
+
+                priceFilters.push({price: {$gte: parseInt(min), $lte: parseInt(max)}})
+            });
+
+
+            filters['$or'] = priceFilters
+        }
+
         Pets.find(filters)
             .then(data => {
                 if (data.length !== 0) {

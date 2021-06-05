@@ -7,12 +7,41 @@ import { sortOption } from './DropdownOptions';
 
 import '../styles/Community.css';
 
+const parseQueryParameter = q => {
+    if (q === "")
+        return {}
+
+    let qs = q.replace("?", "").split("&")
+    let params = {}
+
+    qs.forEach(param => {
+        param = param.split("=")
+        
+        if (param[1] !== "") {
+            params[param[0]] = param[1].replaceAll("%20", " ")
+        }
+        
+    });
+
+    return params
+}
+
+const joinQueryParameter = params => {
+    let res = "?"
+
+    for (let [key, value] of Object.entries(params)) {
+        res += key + "=" + value + "&"
+    }
+
+    return res.slice(0, -1)
+}
+
 class Community extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            allpets : [],
-            curpets : [],
+            pets: [],
+            curpets: [],
             sex: '',
             price: '',
             ranges: [
@@ -27,70 +56,72 @@ class Community extends Component {
     }
 
     componentDidMount() {
-        const url = "http://localhost:8081/allpets";
-        fetch(url, {
-            method: 'GET',
+        this.fetchPets([]) // fetch all pets
+    }
+
+    fetchPets = (params) => {
+        fetch("http://localhost:8081/filterpet", {
+            method: 'POST',
+            body: JSON.stringify(params),
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
             }
         })
-        .then(res => res.json())
-        .then((data) => {
-            this.state.ranges.map((range) => {
-                const res = data.filter(pet => pet.price >= range.min && pet.price < range.max);
-                range.arr = res;
-            })
-            this.setState({allpets: data});
-            this.setState({curpets: data});
-        })  
-    }
-
-    handleChange = (e, { value }) => {
-        this.setState({sex: value});
-    }
-
-    submitHandler = (e) => {
-        e.preventDefault();
-        let array = [];
-        let price = this.state.price;
-        this.state.ranges.map((range) => {
-            if (range.isChecked) {
-                price += range.min + "to" + range.max + "&" + "price=";
-                array = [...array, ...range.arr];
+        .then(async response => {
+            let data = await response.json()
+            if (response.status === 404) {
+                this.setState({err: data.message});
+            } else if (response.status === 200) {
+                this.state.ranges.map((range) => {
+                    const res = data.filter(pet => pet.price >= range.min && pet.price < range.max);
+                    range.arr = res;
+                })
+                this.setState({pets: data});
+                this.setState({curpets: data});
             }
         })
-        price = price.length === 0 ? price : price.slice(0, -7);
-        let res = array.length === 0 ? this.state.allpets : array;
-        
-        res = this.state.sex === '' ? res : res.filter(pet => pet.sex === this.state.sex);
-
-        this.setState({curpets: res});
-
-        console.log("res: ", res);
-        history.push({
-            pathname: '/search',
-            state: {
-                allpets: this.state.allpets,
-                curpets: res,
-                ranges: this.state.ranges
-            },
-            search: `?species=&breed=&location=&sex=${this.state.sex}&price=${price}`,
+        .catch(err => {
+            this.setState({err: err.message});
         })
+    }
+
+    handleSexChange = (e, { value }) => {
+        this.setState({sex: value});
+        let params = parseQueryParameter(this.props.location.search)
+        params['sex'] = value
+        this.props.history.push(this.props.location.pathname + joinQueryParameter(params))
+        this.fetchPets(params)
     }
 
     uncheck = (e) => {
         this.setState({sex: ''});
+        let params = parseQueryParameter(this.props.location.search)
+        delete params['sex'];
+        this.props.history.push(this.props.location.pathname + joinQueryParameter(params))
+        this.fetchPets(params)
     }
 
     toggle = (event) => {
         let ranges = this.state.ranges
+        let queryRange = []
         ranges.forEach(range => {
-           if (range.value === event.target.value) 
-            range.isChecked =  event.target.checked
+            if (range.value === event.target.value) {
+                range.isChecked =  event.target.checked
+            }
+            if (range.isChecked) {
+                queryRange.push(range.min + "-" + range.max)
+            }
         })
         this.setState({ranges: ranges})
+
+        let params = parseQueryParameter(this.props.location.search)
+        delete params['price']
+        if (queryRange.length !== 0)
+            params['price'] = queryRange.join(",")
+        this.props.history.push(this.props.location.pathname + joinQueryParameter(params))
+        this.fetchPets(params)
     }
     
     handleSort = (value) => {
@@ -106,7 +137,6 @@ class Community extends Component {
     render() {
         let pets = this.state.curpets;
         
-        console.log("pets are ", this.state.allpets);
         return (
             <>
                 {
@@ -119,35 +149,33 @@ class Community extends Component {
                             <div class="search-result-container result">
                                 <div id="filter-section">
                                     <h3>Select the Price Range</h3>
-                                    <ul>
+                                    <div className="price-checkbox">
                                         {
                                             this.state.ranges.map((range) => {
                                                 return (<CheckBox toggle={this.toggle} range={range}/>)
                                             })
                                         }
-                                    </ul>
+                                    </div>
 
                                     <h3>Choose the Sex</h3>
                                     <Radio
                                         label='Male'
                                         name='radioGroup'
                                         value='Male'
-                                        onChange={this.handleChange}
+                                        onChange={this.handleSexChange}
                                         checked={this.state.sex === 'Male'}
                                     /><br/>
                                     <Radio
                                         label='Female'
                                         name='radioGroup'
                                         value='Female'
-                                        onChange={this.handleChange}
+                                        onChange={this.handleSexChange}
                                         checked={this.state.sex === 'Female'}
-                                    /><br/>
+                                    /><br/><br/>
                                     <div>
-                                        <Button onClick={this.uncheck}>Uncheck the Sex</Button>
+                                        <Button onClick={this.uncheck}>Clear Sex</Button>
                                     </div>
-                                    <div>
-                                        <Button className="search-button" onClick={this.submitHandler}>Search</Button>
-                                    </div>
+                                    <h3>Sort Price</h3>
                                     <Dropdown
                                             onChange={(e, {value}) => this.handleSort(value)}
                                             placeholder="Sort"
