@@ -25,3 +25,8 @@
     flex-wrap: wrap;
     margin-top: 20px;
 }
+
+ul {
+    margin-left: 0px;
+    list-style: none;
+}

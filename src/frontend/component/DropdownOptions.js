@@ -10,6 +10,11 @@ export const speciesOption = [
   { key: 'Dog', text: 'Dog', value: 'Dog' },
 ]
 
+export const sortOption = [
+  { key: "Price: Low to High", text: "Price: Low to High", value: "ascending" },
+  { key: "Price: High to Low", text: "Price: High to Low", value: "descending" }
+]
+
 export const locationOption = [
   {key: "Alabama", text: "Alabama", value: "Alabama"},
   {key: "Alaska", text: "Alaska", value: "Alaska"},
