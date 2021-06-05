@@ -20,7 +20,7 @@ function App() {
         <Route path="/filter" component={SearchResult} />
         <Route path="/allpets/" component={PetDetail} />
         <Route path="/listpet" component={ListPet} />
-        <Route path="/search" component={SearchResult} />
+        <Route path="/search" exact component={SearchResult} />
       </Switch>
       <Footer />
     </Router>
