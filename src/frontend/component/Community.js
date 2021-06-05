@@ -39,7 +39,7 @@ class Community extends Component {
         .then(res => res.json())
         .then((data) => {
             this.state.ranges.map((range) => {
-                const res = data.filter(pet => pet.price >= range.min && pet.price <= range.max);
+                const res = data.filter(pet => pet.price >= range.min && pet.price < range.max);
                 range.arr = res;
             })
             this.setState({allpets: data});

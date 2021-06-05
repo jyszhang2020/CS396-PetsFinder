@@ -77,7 +77,7 @@ class SearchResult extends Component {
                     this.setState({err: data.message});
                 } else if (response.status === 200) {
                     this.state.ranges.map((range) => {
-                        const res = data.filter(pet => pet.price >= range.min && pet.price <= range.max);
+                        const res = data.filter(pet => pet.price >= range.min && pet.price < range.max);
                         range.arr = res;
                     })
                     this.setState({pets: data});
