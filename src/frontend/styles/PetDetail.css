@@ -1,0 +1,27 @@
+.pet-detail-container {
+    min-height: 750px;
+}
+
+.pet-detail {
+    display: flex;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 30px;
+}
+
+.detail-pet-img {
+    width: 400px;
+    border-radius: 5px;
+}
+
+.detail-pet-info {
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    line-height: 2;
+}
+
+.detail-pet-name {
+    font-size: 2em;
+    font-weight: 600;
+}

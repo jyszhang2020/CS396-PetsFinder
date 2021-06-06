@@ -8,6 +8,15 @@ export const genderOption = [
 export const speciesOption = [
   { key: 'Cat', text: 'Cat', value: 'Cat' },
   { key: 'Dog', text: 'Dog', value: 'Dog' },
+  { key: 'Rabbit', text: 'Rabbit', value: 'Rabbit' },
+  { key: 'Hamster', text: 'Hamster', value: 'Hamster' },
+  { key: 'Bird', text: 'Bird', value: 'Bird' },
+  { key: 'Guinea Pig', text: 'Guinea Pig', value: 'Guinea Pig' },
+]
+
+export const sortOption = [
+  { key: "Price: Low to High", text: "Price: Low to High", value: "ascending" },
+  { key: "Price: High to Low", text: "Price: High to Low", value: "descending" }
 ]
 
 export const locationOption = [

@@ -29,14 +29,22 @@ const responsive = {
     }
 };
 
+const goToCarddetails = (pet) => {
+    console.log("here");
+    localStorage.setItem("selectedPetID", pet._id);
+// you can manage here to pass the clicked card id to the card details page if needed
+}
+
 class Home extends Component {
     constructor() {
         super();
         this.state = {
             species: '',
             breed: '',
+            sex: '',
             location: '',
             err: '',
+            email: '',
             featuredPets: []
         }
     }
@@ -87,6 +95,31 @@ class Home extends Component {
         })
     }
 
+    handleSubmitEmail = () => {
+        fetch('http://localhost:8081/submitemail', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: this.state.email
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
+            }
+        })
+            .then((response) => response.text())
+            .then((response) => {
+                if (response === 'success') {
+                    console.log(response)
+                    alert("You have already joined our mailing list!")
+                }
+                else {
+                    alert("Email submission failed. Please try again later.")
+                }
+            })
+            .catch((err) => console.log(err))
+    }
+
     render() {
         return (
             <div>
@@ -105,13 +138,16 @@ class Home extends Component {
                     <Carousel responsive={responsive}>
                         {this.state.featuredPets.map(pet => (
                             <div className="pet-carousel" key={pet._id}>
-                                <div className="pet-carousel-card">
-                                    <div className="center-cropped" 
-                                        style={{backgroundImage: `url('${pet.image_url}')`}}>
+                                <div className="pet-carousel-card" onClick={() => {
+                                            goToCarddetails(pet)
+                                            history.push('/allpets/' + pet._id);
+                                            }}>
+                                    <div class="pet-img-container">
+                                        <img class="pet-img" src={pet.image_url} alt=""/>
                                     </div>
                                     <div className="pet-card-info">
                                         <div className="pet-card-name"> {pet.name} </div>
-                                        <div className="pet-card-detail"> {pet.breed} </div>
+                                        <div className="pet-card-detail"> {pet.breed ? pet.breed : "No breed info"} </div>
                                         <div className="pet-card-detail"> ${pet.price} </div>
                                     </div>
                                 </div>
@@ -122,7 +158,7 @@ class Home extends Component {
                 <div id="mailing-list">
                     <div id="mailing-list-header"> Join Our Mailing List! </div>
                     <div id="mailing-list-subheader"> Get Notified When a Pet is Available </div>
-                    <Input action='Submit' placeholder='Your Email Address...' />
+                    <Input action={{content: 'Submit', onClick: this.handleSubmitEmail}} placeholder='Your Email Address...' onChange={(e, {value}) => this.handleChange(value, "email")}/>
                 </div>
             </div>
         )

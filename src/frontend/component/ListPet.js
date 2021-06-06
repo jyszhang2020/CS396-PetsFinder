@@ -4,6 +4,7 @@ import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
 import {speciesOption, genderOption} from './DropdownOptions';
 import {catBreedOption, dogBreedOption, locationOption} from './DropdownOptions';
 import {storage} from '../../firebase/firebase'
+import history from './history';
 
 class ListPet extends Component {
 
@@ -24,7 +25,6 @@ class ListPet extends Component {
             term_condition: false,
             name_error: false,
             species_error: false,
-            breed_error: false,
             sex_error: false,
             dob_error: false,
             price_error: false,
@@ -88,11 +88,6 @@ class ListPet extends Component {
         }
         if (this.state.species === '') {
             this.setState({species_error: true})
-            
-            err = true
-        }
-        if (this.state.breed === '') {
-            this.setState({breed_error: true})
             
             err = true
         }
@@ -174,11 +169,12 @@ class ListPet extends Component {
                                 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
                             }
                         })
-                            .then((response) => response.text())
-                            .then((response) => {
-                                if (response === 'success') {
-                                    console.log(response)
-                                    alert("Submit Success!")
+                            .then(async response => {
+                                if (response.status === 201) {
+                                    let pet = await response.json()
+                                    console.log(pet)
+                                    localStorage.setItem("selectedPetID", pet._id);
+                                    history.push('/allpets/' + pet._id)
                                 }
                                 else {
                                     alert("Submit failed")
@@ -230,7 +226,6 @@ class ListPet extends Component {
                             onChange={(event, {value}) => this.handleChange(value, "breed")}
                             placeholder='e.g. Ragdoll'
                             search
-                            error={this.state.breed_error}
                         />
                     </Form.Group>
                     <Form.Group widths='equal'>
