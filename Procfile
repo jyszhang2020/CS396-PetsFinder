@@ -1,1 +1,1 @@
-web: npm start; cd backend ; nodemon server
+web: npm start
